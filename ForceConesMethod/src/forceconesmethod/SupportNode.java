@@ -9,14 +9,17 @@ import processing.core.PVector;
 public class SupportNode extends Node {
 
 	
-	public SupportNode(PVector pos) {
-		super(pos);
-		// TODO Auto-generated constructor stub
+	public SupportNode(PVector pos, Force F, int nodeType) {
+		super(pos, nodeType);
+		// sets the force as opposite
+		F.invertDirection();
+		
 	}
 
-	public SupportNode(float x, float y, float z) {
-		super(x, y, z);
-		// TODO Auto-generated constructor stub
+	public SupportNode(float x, float y, float z, Force F, int nodeType) {
+		super(x, y, z, nodeType);
+		// sets the force as opposite
+		F.invertDirection();
 	}
 
 }

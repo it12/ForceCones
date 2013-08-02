@@ -1,9 +1,6 @@
 package forceconesmethod;
 
-import ddf.minim.analysis.CosineWindow;
-import ddf.minim.signals.SineWave;
-import processing.core.PApplet;
-import processing.core.PVector;
+import processing.core.*;
 
 
 public class ForceCone {
@@ -19,10 +16,9 @@ public class ForceCone {
 	
 	//!cone applies compression into positive axes direction!
 	
-	public ForceCone(PVector pos, PVector dir, float angle){
-		base = new PVector(pos.x,pos.y,pos.z);
-		axes = new PVector(dir.x,dir.y,dir.z);
-		axes.normalize();
+	public ForceCone(Node n, Force F, float angle){
+		PVector base = n.getPosition();
+		axes = F.getDirection(); // already normalized
 		phi = angle;
 		
 		a1 = new PVector(axes.x* PApplet.cos(phi) + axes.y* PApplet.sin(-phi), axes.x* PApplet.sin(phi) + axes.y* PApplet.cos(phi));
@@ -37,8 +33,7 @@ public class ForceCone {
 	public float getAngle(){
 		return phi;
 	}
-	public PVector getConeDirection2D(){
-		
+	public PVector getConeDirection2D(){		
 		return a1;
 	}
 }

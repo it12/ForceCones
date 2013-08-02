@@ -3,8 +3,9 @@ package forceconesmethod;
 import java.awt.Color;
 
 //import main.cantilever;
-import processing.core.PApplet;
-import processing.core.PVector;
+//import processing.core.PApplet;
+//import processing.core.PVector;
+import processing.core.*;
 import Jama.*;
 
 public class ForceConesMethod extends PApplet {
@@ -20,11 +21,17 @@ public class ForceConesMethod extends PApplet {
 	int numSupp = 2;
 	// Number of intersection nodes is 2*numSupp*numNodes
 	int numInter;
+	
+	//setup colors
+	int B = color(0, 105, 180);
+	int Y = color(251, 176, 59);
+			
 
 	public void setup() {
 		//set size & 3d support
 		size(1300, 800, P3D);
-		 
+		
+		//create nodes
 		myNodes = new ForceNode[numNodes];
 		mySuppNodes = new SupportNode[numSupp];
 		
@@ -41,9 +48,9 @@ public class ForceConesMethod extends PApplet {
 
 	public void draw() {
 
-		background(250);
+		background(255);
 		
-		//vary force node for the moment by mouse click
+		//vary force node for the moment by mouse tracking
 		myNodes[0] = new ForceNode(mouseX, mouseY, 0, 0, -200, 0);
 
 		//draw force nodes, support nodes and all cones
@@ -128,6 +135,11 @@ public class ForceConesMethod extends PApplet {
 	//draw a force cone at a node
 	public void drawCone2d(ForceCone cone, PVector basePt, Boolean supp) {
 		
+		//display attributes
+		int scale = 5000;
+		int fillAlpha = 25;
+		int strokeW = 2;
+		
 		
 		PVector base = cone.getBasePoint();
 		float phi = cone.getAngle();
@@ -145,17 +157,25 @@ public class ForceConesMethod extends PApplet {
 		
 		
 		
-		strokeWeight(1);
-		stroke(0, 50, 255);
 		
-		int scale = 500;
+		strokeWeight(strokeW);
+		stroke(B);
+		fill(B, fillAlpha);		
+		
 		line(base.x, base.y, base.x - scale * dir1.x, base.y - scale * dir1.y);
 		line(base.x, base.y, base.x - scale * dir2.x, base.y - scale * dir2.y);
+		
+		triangle(base.x, base.y,base.x - scale * dir1.x, base.y - scale * dir1.y,base.x - scale * dir2.x, base.y - scale * dir2.y);
 
-		strokeWeight(2);
-		stroke(255, 250, 35);
+		strokeWeight(strokeW);
+		
+		stroke(Y);
+		fill(Y, fillAlpha);
+		
 		line(base.x, base.y, base.x + scale * dir1.x, base.y + scale * dir1.y);
 		line(base.x, base.y, base.x + scale * dir2.x, base.y + scale * dir2.y);
+		
+		triangle(base.x, base.y,base.x + scale * dir1.x, base.y + scale * dir1.y,base.x + scale * dir2.x, base.y + scale * dir2.y);
 
 	}
 	

@@ -15,12 +15,12 @@ public class ForceNode extends Node {
 		
 	public ForceNode(PVector pos, Force F, int nT) {
 		super(pos, nT);
-		fCone = new ForceCone(this, F, angle);
+		this.fCone = new ForceCone(this, F, angle);
 
 	}
 
 	public ForceCone getCone() {
-		return fCone;
+		return this.fCone;
 	}
 	
 	public int getType() {

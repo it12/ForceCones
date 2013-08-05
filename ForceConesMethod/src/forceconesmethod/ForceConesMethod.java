@@ -210,22 +210,19 @@ public class ForceConesMethod extends PApplet {
 		int scale = 5000;
 		int fillAlpha = 25;
 		int strokeW = 2;
-		int nodeType = n.getType();
-		ForceCone cone = n.getCone();
+		int nodeType = n.getType();		
 		PVector base = n.getPosition();
+		//get cone
+		ForceCone cone = n.getCone();
 		float phi = cone.getAngle();
 		PVector dir1 = cone.getConeDirection2D();	
-
-		// if they are support points
-		if (nodeType == 1) {
-			//dir1.mult(-1);
-			println(dir1);
-		}
-
+		
+		//TODO can't we get this calculation in the ForceCone class??
 		PVector dir2 = new PVector(dir1.x * PApplet.cos(2 * phi) + dir1.y
 				* PApplet.sin(2 * phi), dir1.x * PApplet.sin(-2 * phi) + dir1.y
 				* PApplet.cos(2 * phi));
 
+		
 		strokeWeight(strokeW);
 		stroke(B);
 		fill(B, fillAlpha);
@@ -251,16 +248,20 @@ public class ForceConesMethod extends PApplet {
 
 	// draw the force vector at specified location
 	public void drawVector(Force f, Node n) {
-		// vector to store end coordinated of vector arrow
-		PVector end;
+		// vector to store end coordinated of vector arrow (end)
+		//realDir is to get the real direction of the force (if support, is reverted)
+		//TODO is there a cleaner way to do this? I tried everything and only this seemed to work...
+		PVector realDir, end;
 		PVector dir = f.getDirection();
 		PVector pos = n.getPosition();
 		dir.setMag(f.getMagnitude());
 		// if is support node, invert direction and divide by 2
 		if (n.getType() == 1) {
-			dir.mult(-1);
+			realDir = PVector.mult(dir, -1);
+		}else{
+			realDir = dir;
 		}
-		end = PVector.sub(pos, dir);
+		end = PVector.sub(pos, realDir);
 		// define style
 		strokeWeight(2);
 		stroke(G);

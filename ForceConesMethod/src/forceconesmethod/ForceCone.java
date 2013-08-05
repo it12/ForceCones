@@ -7,8 +7,6 @@ public class ForceCone {
 	
 	//base point of force cone
 	PVector base;
-	//direction of axes
-	PVector axes;
 	//opening angle
 	float phi;
 	//directions limiting the cone
@@ -17,23 +15,30 @@ public class ForceCone {
 	//!cone applies compression into positive axes direction!
 	
 	public ForceCone(Node n, Force F, float angle){
-		PVector base = n.getPosition();
-		axes = F.getDirection(); // already normalized
+		this.base = n.getPosition();
+		PVector axes = F.getDirection(); // already normalized
+		PVector realDir;
+		if (n.getType()==1){ //support points?
+			realDir = PVector.mult(axes,-1);
+		}else{
+			realDir = axes;
+		}
 		phi = angle;
 		
-		a1 = new PVector(axes.x* PApplet.cos(phi) + axes.y* PApplet.sin(-phi), axes.x* PApplet.sin(phi) + axes.y* PApplet.cos(phi));
-		b1 = new PVector(axes.x* PApplet.cos(phi) + axes.y* PApplet.sin(phi), axes.x* PApplet.sin(-phi) + axes.y* PApplet.cos(phi));
+		a1 = new PVector(realDir.x* PApplet.cos(phi) + realDir.y* PApplet.sin(-phi), realDir.x* PApplet.sin(phi) + realDir.y* PApplet.cos(phi));
+		b1 = new PVector(realDir.x* PApplet.cos(phi) + realDir.y* PApplet.sin(phi), realDir.x* PApplet.sin(-phi) + realDir.y* PApplet.cos(phi));
+
 
 	}
 	
 	public PVector getBasePoint(){
-		return base;
+		return this.base;
 	}
 	
 	public float getAngle(){
-		return phi;
+		return this.phi;
 	}
 	public PVector getConeDirection2D(){		
-		return a1;
+		return this.a1;
 	}
 }
